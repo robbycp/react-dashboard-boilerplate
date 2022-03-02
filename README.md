@@ -1,2 +1,2 @@
 # react-dashboard-boilerplate
-Boilerplate for creating dashboard
+Boilerplate template for creating dashboard
