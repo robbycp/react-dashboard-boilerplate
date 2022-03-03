@@ -1,3 +1,9 @@
+# Things for developer
+## Logo
+- Replace apps logo in assets/img/logo.svg
+## Theme
+- set application theme color in src/app/styles/theme
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Available Scripts
