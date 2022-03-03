@@ -9,10 +9,13 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiDrawer from '@mui/material/Drawer';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
+import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import logo from 'assets/img/logo.svg';
@@ -125,6 +128,11 @@ export default function MiniDrawer({
 }: LayoutProps) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false)
+
+  const handleClickAuth = () => {
+    setIsAuthenticated(!isAuthenticated)
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -154,6 +162,31 @@ export default function MiniDrawer({
           <Typography variant="h6" noWrap component="div">
             {process.env.REACT_APP_WEBSITE_NAME}
           </Typography>
+          <Box sx={{ flexGrow: 1 }} />
+          {isAuthenticated && (
+            <Typography variant="body1" noWrap component="div" sx={{ marginRight: theme.spacing(2) }}>
+              robbycaesar@gmail.com
+            </Typography>
+          )}
+          {isAuthenticated && (
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Tooltip title="Logout">
+                <IconButton size="large" aria-label="logout icon" color="inherit" onClick={handleClickAuth}>
+                  <LogoutIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
+          {/* TODO: Deleted after auth implementation */}
+          {!isAuthenticated && (
+            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+              <Tooltip title="Login">
+                <IconButton size="large" aria-label="logout icon" color="inherit" onClick={handleClickAuth}>
+                  <LoginIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          )}
         </Toolbar>
       </AppBar>
       <Drawer variant="permanent" open={open}>
