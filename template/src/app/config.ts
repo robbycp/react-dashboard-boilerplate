@@ -1,16 +1,16 @@
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import MailIcon from '@mui/icons-material/Mail';
+import HomeIcon from '@mui/icons-material/Home';
+import TableChartIcon from '@mui/icons-material/TableChart';
 
 export const menus = [
   {
-    Icon: InboxIcon,
-    isDivider: true,
-    name: 'Dashboard',
-    route: '/nani'
+    Icon: HomeIcon,
+    name: 'Home',
+    route: '/'
   },
   {
-    Icon: MailIcon,
-    name: 'Mail',
-    route: '/nani'
+    Icon: TableChartIcon,
+    isDivider: true,
+    name: 'Table',
+    route: '/table'
   },
 ]

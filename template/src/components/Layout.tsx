@@ -1,10 +1,12 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
+import { Outlet } from 'react-router-dom'
 import Box from '@mui/material/Box';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import Divider from '@mui/material/Divider';
 import IconButton from '@mui/material/IconButton';
+import Link from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -97,7 +99,10 @@ interface LogoProps extends React.HTMLProps<HTMLImageElement> {
   open: boolean
 }
 
-const Logo = styled('img')<LogoProps>(({ open, isDrawer, theme }) => {
+const Logo = styled(
+  'img',
+  { shouldForwardProp: (props) => props !== 'isDrawer' },
+)<LogoProps>(({ open, isDrawer, theme }) => {
   const logoSize = {
     height: theme.spacing(5),
     width: theme.spacing(5),
@@ -119,13 +124,7 @@ const Logo = styled('img')<LogoProps>(({ open, isDrawer, theme }) => {
   }
 })
 
-interface LayoutProps {
-  children: React.ReactElement | React.ReactElement[]
-}
-
-export default function MiniDrawer({
-  children
-}: LayoutProps) {
+export default function Layout() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
   const [isAuthenticated, setIsAuthenticated] = React.useState(false)
@@ -198,19 +197,42 @@ export default function MiniDrawer({
         </DrawerHeader>
         <Divider />
         <List>
-          {menus.map(({ isDivider, name, route, Icon }) => (
-            <ListItemButton key={name} divider={isDivider} href={route}>
+          {menus.map(({ isDivider, name, route, Icon }) => {
+            const listButton = (
+              <ListItemButton key={name} divider={isDivider}>
+                <ListItemIcon>
+                  <Icon />
+                </ListItemIcon>
+                <ListItemText primary={name} />
+              </ListItemButton>
+            )
+
+            return !!route ? (
+              <Link href={route} key={name}>
+                {listButton}
+              </Link>
+            ) : listButton
+          })}
+          {isAuthenticated ? (
+            <ListItemButton key="Logout" onClick={handleClickAuth}>
               <ListItemIcon>
-                <Icon />
+                <LogoutIcon />
               </ListItemIcon>
-              <ListItemText primary={name} />
+              <ListItemText primary="Logout" />
             </ListItemButton>
-          ))}
+          ) : (
+            <ListItemButton key="Login" onClick={handleClickAuth}>
+              <ListItemIcon>
+                <LoginIcon />
+              </ListItemIcon>
+              <ListItemText primary="Login" />
+            </ListItemButton>
+          )}
         </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, height: '100vh' }}>
         <DrawerHeader />
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );

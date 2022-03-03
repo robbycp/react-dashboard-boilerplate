@@ -1,58 +1,25 @@
 import React from 'react'
+import styled from '@emotion/styled';
 
-import Layout from 'components/Layout'
 import logo from 'assets/img/logo.svg';
-import { Counter } from 'features/counter/Counter';
 
 import './page-home-style.css'
+import { Typography } from '@mui/material';
+
+const LayoutHome = styled('div')(() => ({
+  height: '100%',
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+}))
 
 const PageHomeView = () => {
   return (
-    <Layout>
+    <LayoutHome>
       <img src={logo} className="App-logo" alt="logo" />
-      <Counter />
-      <p>
-        Edit <code>src/App.tsx</code> and save to reload.
-      </p>
-      <span>
-        <span>Learn </span>
-        <a
-          className="App-link"
-          href="https://reactjs.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          React
-        </a>
-        <span>, </span>
-        <a
-          className="App-link"
-          href="https://redux.js.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Redux
-        </a>
-        <span>, </span>
-        <a
-          className="App-link"
-          href="https://redux-toolkit.js.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Redux Toolkit
-        </a>
-        ,<span> and </span>
-        <a
-          className="App-link"
-          href="https://react-redux.js.org/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          React Redux
-        </a>
-      </span>
-    </Layout>
+      <Typography variant="h6">Welcome to {process.env.REACT_APP_WEBSITE_NAME}</Typography>
+    </LayoutHome>
   )
 }
 
