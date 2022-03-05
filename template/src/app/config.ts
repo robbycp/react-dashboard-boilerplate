@@ -10,6 +10,7 @@ export const menus = [
   {
     Icon: TableChartIcon,
     isDivider: true,
+    isProtected: true,
     name: 'Table',
     route: '/table'
   },

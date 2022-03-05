@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { styled, useTheme, Theme, CSSObject } from '@mui/material/styles';
 import { Outlet } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux';
 import Box from '@mui/material/Box';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
@@ -11,7 +12,6 @@ import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import MenuIcon from '@mui/icons-material/Menu';
 import MuiDrawer from '@mui/material/Drawer';
@@ -22,6 +22,7 @@ import Typography from '@mui/material/Typography';
 
 import logo from 'assets/img/logo.svg';
 import { menus } from 'app/config';
+import { authSignoutGoogle, selectAuthState } from 'app/redux/authSlice';
 
 const drawerWidth = 240;
 
@@ -125,14 +126,15 @@ const Logo = styled(
 })
 
 export default function Layout() {
+  const dispatch = useDispatch()
   const theme = useTheme();
+
   const [open, setOpen] = React.useState(false);
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false)
+  const { isAuthenticated } = useSelector(selectAuthState)
 
-  const handleClickAuth = () => {
-    setIsAuthenticated(!isAuthenticated)
+  const handleSignout = () => {
+    dispatch(authSignoutGoogle())
   }
-
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -170,18 +172,8 @@ export default function Layout() {
           {isAuthenticated && (
             <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
               <Tooltip title="Logout">
-                <IconButton size="large" aria-label="logout icon" color="inherit" onClick={handleClickAuth}>
+                <IconButton size="large" aria-label="logout icon" color="inherit" onClick={handleSignout}>
                   <LogoutIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          )}
-          {/* TODO: Deleted after auth implementation */}
-          {!isAuthenticated && (
-            <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-              <Tooltip title="Login">
-                <IconButton size="large" aria-label="logout icon" color="inherit" onClick={handleClickAuth}>
-                  <LoginIcon />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -197,7 +189,10 @@ export default function Layout() {
         </DrawerHeader>
         <Divider />
         <List>
-          {menus.map(({ isDivider, name, route, Icon }) => {
+          {menus.map(({ isDivider, isProtected, name, route, Icon }) => {
+            if (isProtected && !isAuthenticated) {
+              return null
+            }
             const listButton = (
               <ListItemButton key={name} divider={isDivider}>
                 <ListItemIcon>
@@ -213,19 +208,12 @@ export default function Layout() {
               </Link>
             ) : listButton
           })}
-          {isAuthenticated ? (
-            <ListItemButton key="Logout" onClick={handleClickAuth}>
+          {isAuthenticated && (
+            <ListItemButton key="Logout" onClick={handleSignout}>
               <ListItemIcon>
                 <LogoutIcon />
               </ListItemIcon>
               <ListItemText primary="Logout" />
-            </ListItemButton>
-          ) : (
-            <ListItemButton key="Login" onClick={handleClickAuth}>
-              <ListItemIcon>
-                <LoginIcon />
-              </ListItemIcon>
-              <ListItemText primary="Login" />
             </ListItemButton>
           )}
         </List>
