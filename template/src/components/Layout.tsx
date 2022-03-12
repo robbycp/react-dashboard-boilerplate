@@ -22,7 +22,7 @@ import Typography from '@mui/material/Typography';
 
 import logo from 'assets/img/logo.svg';
 import { menus } from 'app/config';
-import { authSignoutGoogle, selectAuthState } from 'app/redux/authSlice';
+import { authSignoutGoogle, selectAuthState } from 'app/redux/slices/authSlice';
 
 const drawerWidth = 240;
 

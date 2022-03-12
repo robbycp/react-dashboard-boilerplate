@@ -5,7 +5,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import Typography from '@mui/material/Typography';
 
 import logo from 'assets/img/logo.svg';
-import { AuthState } from 'app/redux/authSlice';
+import { AuthState } from 'app/redux/slices/authSlice';
 
 import './page-home-style.css'
 

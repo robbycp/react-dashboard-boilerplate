@@ -1,5 +1,5 @@
 import React from 'react'
-import { authSigninGoogle, selectAuthState } from 'app/redux/authSlice'
+import { authSigninGoogle, selectAuthState } from 'app/redux/slices/authSlice'
 import { useDispatch, useSelector } from 'react-redux'
 
 import PageHomeView from './page-home-view'

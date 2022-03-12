@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { useAppSelector, useAppDispatch } from 'app/hooks';
+import useAppSelector from 'app/hooks/useAppSelector';
 import {
   decrement,
   increment,
   incrementByAmount,
   incrementAsync,
-  incrementIfOdd,
   selectCount,
 } from './counterSlice';
 import styles from './Counter.module.css';
 
 export function Counter() {
   const count = useAppSelector(selectCount);
-  const dispatch = useAppDispatch();
+  const dispatch = useDispatch();
   const [incrementAmount, setIncrementAmount] = useState('2');
 
   const incrementValue = Number(incrementAmount) || 0;
@@ -55,12 +55,6 @@ export function Counter() {
           onClick={() => dispatch(incrementAsync(incrementValue))}
         >
           Add Async
-        </button>
-        <button
-          className={styles.button}
-          onClick={() => dispatch(incrementIfOdd(incrementValue))}
-        >
-          Add If Odd
         </button>
       </div>
     </div>

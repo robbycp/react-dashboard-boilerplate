@@ -3,21 +3,26 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
+import { PersistGate } from 'redux-persist/integration/react'
 
-import { store } from 'app/store';
+import initializeStore from 'app/redux';
 import Routes from './RootRoutes'
 import theme from './styles/theme';
+
+const { store, persistor } = initializeStore()
 
 function App() {
   return (
     <React.StrictMode>
       <Provider store={store}>
-        <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Routes />
-          </ThemeProvider>
-        </BrowserRouter>
+        <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter>
+            <ThemeProvider theme={theme}>
+              <CssBaseline />
+              <Routes />
+            </ThemeProvider>
+          </BrowserRouter>
+        </PersistGate>
       </Provider>
     </React.StrictMode>
   );

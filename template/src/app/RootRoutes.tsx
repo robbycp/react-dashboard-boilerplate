@@ -8,21 +8,21 @@ import {
 
 import Layout from 'components/Layout'
 
-import { useAuthFirebase } from './lib/firebase-auth';
 import { useDispatch } from 'react-redux';
-import { authUserSet } from './redux/authSlice';
+import { appStartCheck } from './redux/slices/appSlice';
+import useAppSelector from './hooks/useAppSelector';
+import { selectAuthState } from './redux/slices/authSlice';
 
 const useElementBuilder = (
   Component: React.LazyExoticComponent<React.ComponentType<any>>,
   options?: {
     isProtected: boolean
   },
-  value?: {
-    isAuth: boolean
-  }
 ) => {
+  const { isAuthenticated } = useAppSelector(selectAuthState)
   const location = useLocation()
-  if (options?.isProtected && !value?.isAuth) {
+
+  if (options?.isProtected && !isAuthenticated) {
     return <Navigate to="/" state={{ from: location }} replace />;
   }
   return (
@@ -38,21 +38,17 @@ const TableDetail = React.lazy(() => import('pages/table-detail'))
 
 const RootRoutes = () => {
   const dispatch = useDispatch()
-  const { isAuth, dataUser } = useAuthFirebase()
 
   useEffect(() => {
-    dispatch(authUserSet({
-      user: dataUser,
-      isAuth,
-    }))
-  }, [isAuth, dataUser, dispatch])
+    dispatch(appStartCheck())
+  }, [dispatch])
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={useElementBuilder(Home)} />
-        <Route path="table" element={useElementBuilder(Table, { isProtected: true }, { isAuth })} />
-        <Route path="table/:rowId" element={useElementBuilder(TableDetail, { isProtected: true }, { isAuth })} />
+        <Route path="table" element={useElementBuilder(Table, { isProtected: true })} />
+        <Route path="table/:rowId" element={useElementBuilder(TableDetail, { isProtected: true })} />
         <Route path="*" element={<>No page</>} />
       </Route>
     </Routes>

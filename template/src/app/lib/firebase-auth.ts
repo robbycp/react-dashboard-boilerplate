@@ -7,7 +7,7 @@ import {
   signOut,
 } from "firebase/auth";
 
-import { AuthUser } from 'app/redux/authSlice';
+import { AuthUser } from 'app/redux/slices/authSlice';
 import { app } from './firebase';
 
 const auth = getAuth(app);
@@ -31,6 +31,10 @@ export const useAuthFirebase = () => {
       photoURL: dataUser.photoURL,
     },
   }
+}
+
+export const getCurrentUser = () => {
+  return auth.currentUser;
 }
 
 export const signinGoogle = async () => {
