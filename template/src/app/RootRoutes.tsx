@@ -11,6 +11,7 @@ import Layout from 'components/Layout'
 import { useDispatch } from 'react-redux';
 import { appStartCheck } from './redux/slices/appSlice';
 import useAppSelector from './hooks/useAppSelector';
+import useSnackbarRedux from './hooks/useSnackbarRedux';
 import { selectAuthState } from './redux/slices/authSlice';
 
 const useElementBuilder = (
@@ -37,6 +38,7 @@ const Table = React.lazy(() => import('pages/table'))
 const TableDetail = React.lazy(() => import('pages/table-detail'))
 
 const RootRoutes = () => {
+  useSnackbarRedux()
   const dispatch = useDispatch()
 
   useEffect(() => {

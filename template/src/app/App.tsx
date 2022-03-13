@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import { Provider } from 'react-redux';
 import { ThemeProvider } from '@mui/material/styles';
 import { PersistGate } from 'redux-persist/integration/react'
+import { SnackbarProvider } from 'notistack';
 
 import initializeStore from 'app/redux';
 import Routes from './RootRoutes'
@@ -18,8 +19,10 @@ function App() {
         <PersistGate loading={null} persistor={persistor}>
           <BrowserRouter>
             <ThemeProvider theme={theme}>
-              <CssBaseline />
-              <Routes />
+              <SnackbarProvider>
+                <CssBaseline />
+                <Routes />
+              </SnackbarProvider>
             </ThemeProvider>
           </BrowserRouter>
         </PersistGate>
