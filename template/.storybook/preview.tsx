@@ -1,5 +1,6 @@
 import React from 'react';
-import { ThemeProvider } from '@mui/material/styles';
+import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles';
+import { ThemeProvider } from 'emotion-theming';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from "react-router-dom";
@@ -25,9 +26,11 @@ export const decorators = [
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <BrowserRouter>
-          <ThemeProvider theme={theme}>
-            <Story />
-          </ThemeProvider>
+          <MUIThemeProvider theme={theme}>
+            <ThemeProvider theme={theme}>
+              <Story />
+            </ThemeProvider>
+          </MUIThemeProvider>
         </BrowserRouter>
       </PersistGate>
     </Provider>
