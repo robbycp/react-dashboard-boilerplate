@@ -4,6 +4,7 @@ import { ThemeProvider } from 'emotion-theming';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { BrowserRouter } from "react-router-dom";
+import { themes } from '@storybook/theming';
 
 import theme from '../src/app/styles/theme';
 
@@ -15,6 +16,13 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  darkMode: {
+    // Override the default dark theme
+    dark: { ...themes.dark, appBg: 'black' },
+    // Override the default light theme
+    light: { ...themes.normal },
+    current: 'dark',
+  }
 }
 
 import initializeStore from '../src/app/redux';

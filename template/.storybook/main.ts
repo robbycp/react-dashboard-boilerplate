@@ -8,6 +8,7 @@ const config: StorybookConfig = {
     '@storybook/preset-create-react-app',
     '@storybook/addon-interactions',
     'storybook-addon-designs',
+    'storybook-dark-mode',
   ],
   typescript: {
     check: false,
