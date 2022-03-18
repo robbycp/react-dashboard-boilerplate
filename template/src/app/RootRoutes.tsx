@@ -36,6 +36,8 @@ const useElementBuilder = (
 const Home = React.lazy(() => import('pages/home'))
 const Table = React.lazy(() => import('pages/table'))
 const TableDetail = React.lazy(() => import('pages/table-detail'))
+const Todos = React.lazy(() => import('features/todo/pages/todo-list'))
+const TodoDetail = React.lazy(() => import('features/todo/pages/todo-detail'))
 
 const RootRoutes = () => {
   useSnackbarRedux()
@@ -51,6 +53,8 @@ const RootRoutes = () => {
         <Route index element={useElementBuilder(Home)} />
         <Route path="table" element={useElementBuilder(Table, { isProtected: true })} />
         <Route path="table/:rowId" element={useElementBuilder(TableDetail, { isProtected: true })} />
+        <Route path="todo" element={useElementBuilder(Todos, { isProtected: true })} />
+        <Route path="todo/:todoId" element={useElementBuilder(TodoDetail, { isProtected: true })} />
         <Route path="*" element={<>No page</>} />
       </Route>
     </Routes>

@@ -1,7 +1,15 @@
 import HomeIcon from '@mui/icons-material/Home';
+import ListIcon from '@mui/icons-material/List';
 import TableChartIcon from '@mui/icons-material/TableChart';
 
-export const menus = [
+interface Menu {
+  Icon: typeof HomeIcon,
+  name: string,
+  route: string,
+  isDivider?: boolean,
+  isProtected?: boolean
+}
+export const menus: Menu[] = [
   {
     Icon: HomeIcon,
     name: 'Home',
@@ -14,4 +22,10 @@ export const menus = [
     name: 'Table',
     route: '/table'
   },
+  {
+    Icon: ListIcon,
+    isProtected: true,
+    name: 'Todo',
+    route: '/todo',
+  }
 ]
