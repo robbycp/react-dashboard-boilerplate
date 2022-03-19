@@ -40,10 +40,10 @@ export interface AxioCrud {
   todoUserLogin: Endpoint<string, {}>;
   todoUserLogout: Endpoint<{}, {}>;
   todoUserMe: Endpoint<{}, TodoUser>;
-  todoTaskAdd: Endpoint<{}, {}>;
-  todoTaskAllGet: Endpoint<{}, {}>;
-  todoTaskByIdGet: Endpoint<{}, {}>;
-  todoTaskByIdUpdate: Endpoint<{}, {}>;
+  todoTaskAdd: Endpoint<Pick<Todo, 'description'>, Todo>;
+  todoTaskAllGet: Endpoint<{}, Todo[]>;
+  todoTaskByIdGet: Endpoint<{}, Todo>;
+  todoTaskByIdUpdate: Endpoint<{}, Todo>;
   todoTaskByIdDelete: Endpoint<{}, {}>;
 }
 
@@ -85,17 +85,17 @@ const endpoints: AxioCrud = {
   },
   todoTaskByIdGet: {
     method: 'get',
-    path: '/task/:taskId',
+    path: '/task/:id',
     response: {...initialTodo},
   },
   todoTaskByIdUpdate: {
     method: 'put',
-    path: '/task/:taskId',
+    path: '/task/:id',
     response: {...initialTodo},
   },
   todoTaskByIdDelete: {
     method: 'delete',
-    path: '/task/:taskId',
+    path: '/task/:id',
     response: {},
   }
 };

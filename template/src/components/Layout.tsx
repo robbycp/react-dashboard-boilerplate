@@ -21,7 +21,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
 
 import logo from 'assets/img/logo.svg';
-import { menus } from 'app/config';
+import { menus } from 'app/config/menus';
 import { authSignoutGoogle, selectAuthState } from 'app/redux/slices/authSlice';
 
 const drawerWidth = 240;

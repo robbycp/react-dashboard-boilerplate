@@ -1,6 +1,6 @@
 import { call, fork, getContext, put } from 'redux-saga/effects';
 
-import type { TodoUser } from 'features/todo/apiTodo';
+import type { TodoUser } from 'features/todo/services/apiTodo';
 
 import {
   todoAuthRegisterFailed,
@@ -52,6 +52,7 @@ export function* todoAuthLogoutSaga() {
   try {
     const apiTodo: RootContext[ContextNameTodo.API_TODO] = yield getContext(ContextNameTodo.API_TODO);
     yield call(apiTodo.todoUserLogout)
+    localStorage.setItem(process.env.REACT_APP_TOKEN_KEY, '{}')
     yield put(todoAuthLogoutSuccess());
   } catch (error) {
     yield put(todoAuthLogoutFailed())

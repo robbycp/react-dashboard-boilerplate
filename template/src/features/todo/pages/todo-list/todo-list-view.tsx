@@ -1,6 +1,7 @@
 import React from 'react'
 
 import AuthView from './auth'
+import Table from './table'
 
 interface TodoListViewProps {
   handleLogout: () => void
@@ -26,7 +27,7 @@ const TodoListView = ({
         </div>
       )}
       {isAuthenticated ? (
-        <>Table</>
+        <Table />
       ) : (
         <AuthView />
       )}

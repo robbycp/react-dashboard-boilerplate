@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { RootState } from 'app/redux';
-import type { TodoUser } from '../../apiTodo'
+import type { TodoUser } from 'features/todo/services/apiTodo'
 
 export interface TodoAuthState {
   me: {
