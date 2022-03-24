@@ -41,12 +41,13 @@ export const useTodoAdd = () => {
 export const useTodoUpdate = () => {
   const { enqueueSnackbar } = useSnackbar()
   const queryClient = useQueryClient();
-  return useMutation<AxiosResponse<Todo>, AxiosError, Todo>(
+  return useMutation<AxiosResponse<{ data: Todo, success: boolean }>, AxiosError, Todo>(
     updatedTodo => {
-      const {_id, ...data} = updatedTodo;
       return apiTodo.todoTaskByIdUpdate({
-        params: {id: _id},
-        data: {...data},
+        paramsUrl: {id: updatedTodo._id},
+        data: {
+          completed: updatedTodo.completed
+        },
       });
     },
     {
@@ -66,7 +67,7 @@ export const useTodoDelete = () => {
   return useMutation<unknown, AxiosResponse, {id: string}>(
     todoId =>
       apiTodo.todoTaskByIdDelete({
-        params: {id: todoId},
+        paramsUrl: {id: todoId},
       }),
     {
       onSuccess: (data, todoId) => {

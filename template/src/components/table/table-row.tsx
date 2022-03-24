@@ -7,28 +7,38 @@ import MuiTableRow from '@mui/material/TableRow';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import TableCell from '@mui/material/TableCell';
 
-export type TableRowProps = {
+type PartialRecord<K extends keyof any, T> = {
+  [P in K]?: T;
+};
+
+type RowRenderOption<TData, TComponent> = PartialRecord<keyof TData, TComponent>
+
+export type TableRowProps<TData> = {
   columnKey: string,
-  data: Record<string, unknown>,
+  data: TData,
   isItemSelected?: boolean,
   labelId: string,
   onClick: (event: React.MouseEvent<unknown>, name: never) => void,
+  rowRenderOption?: RowRenderOption<TData, (data: TData) => JSX.Element>,
   rowActionOptions: {
     label: string,
-    onClick: (labelId: unknown) => void
+    onClick: (labelId: string) => void
   }[]
   withCheckbox: boolean
 }
 
-const TableRow = ({
+type TableRowComponent = <TData>(props: TableRowProps<TData>) => JSX.Element
+
+const TableRow: TableRowComponent = ({
   columnKey,
   data,
   isItemSelected,
   labelId,
   onClick,
   rowActionOptions,
+  rowRenderOption,
   withCheckbox,
-}: TableRowProps) => {
+}) => {
   const handleClickRow = (event: React.MouseEvent<unknown>) => onClick(event, data[columnKey] as never)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -67,9 +77,14 @@ const TableRow = ({
           scope: "row",
         } : {}
 
+        const CustomRow = rowRenderOption && rowRenderOption[key]
+
         return (
           <TableCell key={`${data[key]}-${index}`} {...propsId}>
-            {data[key] as React.ReactNode}
+            {!!CustomRow
+              ? (<CustomRow {...data} />)
+              : data[key] as React.ReactNode
+            }
           </TableCell>
         )
       })}

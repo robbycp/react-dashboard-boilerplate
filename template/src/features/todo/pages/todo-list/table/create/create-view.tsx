@@ -14,7 +14,7 @@ const CreateView = ({
 }: Props) => {
   return (
     <Grid>
-      <TextField value={description} onChange={(e) => setDescription(e.currentTarget.value)} />
+      <TextField label="New task" value={description} onChange={(e) => setDescription(e.currentTarget.value)} />
       <Button onClick={handleCreateTodo}>
         Submit
       </Button>

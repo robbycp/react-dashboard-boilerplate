@@ -4,6 +4,11 @@ import type {Endpoint} from 'app/types/api';
 export interface Todo {
   _id: string;
   description: string;
+  completed: boolean;
+  createdAt: string;
+  owner: string;
+  updatedAt: string;
+  __v: number;
 }
 export interface TodoUser {
   createdAt: string
@@ -15,6 +20,11 @@ export interface TodoUser {
 const initialTodo: Todo = {
   _id: '',
   description: '',
+  completed: false,
+  createdAt: '',
+  owner: '',
+  updatedAt: '',
+  __v: 0,
 };
 const initialUser: TodoUser = {
   createdAt: '',
@@ -41,9 +51,9 @@ export interface AxioCrud {
   todoUserLogout: Endpoint<{}, {}>;
   todoUserMe: Endpoint<{}, TodoUser>;
   todoTaskAdd: Endpoint<Pick<Todo, 'description'>, Todo>;
-  todoTaskAllGet: Endpoint<{}, Todo[]>;
+  todoTaskAllGet: Endpoint<{}, { data: Todo[], count: number }>;
   todoTaskByIdGet: Endpoint<{}, Todo>;
-  todoTaskByIdUpdate: Endpoint<{}, Todo>;
+  todoTaskByIdUpdate: Endpoint<{}, { data: Todo, success: boolean }>;
   todoTaskByIdDelete: Endpoint<{}, {}>;
 }
 
@@ -81,7 +91,10 @@ const endpoints: AxioCrud = {
   todoTaskAllGet: {
     method: 'get',
     path: '/task',
-    response: [],
+    response: {
+      count: 0,
+      data: [],
+    },
   },
   todoTaskByIdGet: {
     method: 'get',
@@ -91,7 +104,12 @@ const endpoints: AxioCrud = {
   todoTaskByIdUpdate: {
     method: 'put',
     path: '/task/:id',
-    response: {...initialTodo},
+    response: {
+      data: {
+        ...initialTodo,
+      },
+      success: true,
+    },
   },
   todoTaskByIdDelete: {
     method: 'delete',

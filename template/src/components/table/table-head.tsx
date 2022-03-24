@@ -4,8 +4,6 @@ import TableCell from '@mui/material/TableCell';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import type { Data } from 'dataMock/dataTables'
-
 interface EnhancedTableHeadProps {
   numSelected: number;
   headOptions: HeadCell[]
@@ -16,7 +14,7 @@ interface EnhancedTableHeadProps {
 }
 
 export interface HeadCell {
-  id: keyof Data;
+  id: string;
   label: string;
 }
 

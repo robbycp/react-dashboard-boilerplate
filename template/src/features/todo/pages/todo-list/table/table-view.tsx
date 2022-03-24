@@ -1,26 +1,51 @@
 import React from 'react'
-import { Grid } from '@mui/material'
+import { Checkbox, Grid } from '@mui/material'
 import { useTodosGet } from 'features/todo/services/hooks/useTodo'
 
 import Create from './create'
+import Table from 'components/table'
+import type { HeadCell } from 'components/table/table-head'
+import type { Todo } from 'features/todo/services/apiTodo'
 
 type Props = {
-  todosQuery: ReturnType<typeof useTodosGet>
+  handleClickCompleted: (data: Todo) => void,
+  handleDeleteTask: (id: string) => void,
+  todosQuery: ReturnType<typeof useTodosGet>,
 }
 
+const headOptions: HeadCell[] = [
+  { id: "completed", label: 'Completed' },
+  { id: "_id", label: 'ID' },
+  { id: "description", label: 'Description' },
+  { id: "owner", label: 'Owner' },
+  { id: "createdAt", label: 'Created At' },
+  { id: "updatedAt", label: 'Updated At' },
+  { id: "__v", label: 'Version' },
+]
 const TableView = ({
-  todosQuery
+  handleClickCompleted,
+  handleDeleteTask,
+  todosQuery,
 }: Props) => {
-  console.log('todosQuery', todosQuery)
   return (
     <Grid container display="flex" flexDirection="column">
       <Create />
       <div>
-        {todosQuery.isLoading ? (
-          <>...loading</>
-        ) : (
-          JSON.stringify(todosQuery.data)
-        )}
+        <Table
+          columnKey="_id"
+          headOptions={headOptions}
+          isLoading={todosQuery.isLoading}
+          rowActionOptions={[
+            { label: 'Delete', onClick: handleDeleteTask }
+          ]}
+          rowRenderOption={{
+            completed: (data) => (
+              <Checkbox checked={data.completed} onClick={() => handleClickCompleted(data)} />
+            ),
+          }}
+          rows={todosQuery.data?.data?.data || []}
+          tableTitle="Todo"
+        />
       </div>
     </Grid>
   )

@@ -7,18 +7,21 @@ import TableContainer from '@mui/material/TableContainer';
 import TableRow from '@mui/material/TableRow';
 import TablePagination from '@mui/material/TablePagination';
 import Paper from '@mui/material/Paper';
+import Skeleton from '@mui/material/Skeleton';
 
 import EnhancedTableHead, { HeadCell } from './table-head'
 import EnhancedTableRow, { TableRowProps } from './table-row'
 import EnhancedTableToolbar, { EnhancedTableToolbarProps } from './table-toolbar'
 
-export interface TableProps {
-  rowActionOptions?: TableRowProps['rowActionOptions']
+export type TableProps<TData> = {
+  rowActionOptions?: TableRowProps<TData>['rowActionOptions']
   columnKey: string
   headOptions: HeadCell[]
-  onChangePage: (newPage: number) => void,
-  onChangeRowsPerPage: (newPage: number) => void,
-  rows: Record<string, unknown>[]
+  isLoading?: boolean
+  onChangePage?: (newPage: number) => void,
+  onChangeRowsPerPage?: (newPage: number) => void,
+  rowRenderOption?: TableRowProps<TData>['rowRenderOption']
+  rows: TData[]
   rowsPerPageOptions?: number[]
   checkboxOptions?: {
     bulkOptions: EnhancedTableToolbarProps['bulkOptions']
@@ -27,17 +30,21 @@ export interface TableProps {
   tableTitle: string
 }
 
-const EnhancedTable = ({
+type TableComponent = <TData>(props: TableProps<TData>) => JSX.Element
+
+const EnhancedTable: TableComponent = ({
   rowActionOptions = [],
   checkboxOptions,
   columnKey,
   headOptions,
-  onChangePage,
-  onChangeRowsPerPage,
+  isLoading = false,
+  onChangePage = () => ({}),
+  onChangeRowsPerPage = () => ({}),
+  rowRenderOption,
   rows,
   rowsPerPageOptions = [5, 10, 25],
   tableTitle,
-}: TableProps) => {
+}) => {
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(rowsPerPageOptions[0]);
@@ -121,6 +128,15 @@ const EnhancedTable = ({
           >
             <EnhancedTableHead {...propsHead} />
             <TableBody>
+              {isLoading && (
+                <TableRow>
+                  {Array.from(Array(headOptions.length).keys()).map((item) => (
+                    <TableCell>
+                      <Skeleton variant="text" key={item} />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              )}
               {rows
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
@@ -133,6 +149,7 @@ const EnhancedTable = ({
                     data: row,
                     isItemSelected,
                     labelId,
+                    rowRenderOption,
                     rowActionOptions,
                     withCheckbox: !!checkboxOptions,
                   }
