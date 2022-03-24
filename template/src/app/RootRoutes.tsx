@@ -33,9 +33,9 @@ const useElementBuilder = (
   )
 }
 
-const Home = React.lazy(() => import('pages/home'))
-const Table = React.lazy(() => import('pages/table'))
-const TableDetail = React.lazy(() => import('pages/table-detail'))
+const Home = React.lazy(() => import('app/pages/home'))
+const Table = React.lazy(() => import('features/table-example/pages/table'))
+const TableDetail = React.lazy(() => import('features/table-example/pages/table-detail'))
 const Todos = React.lazy(() => import('features/todo/pages/todo-list'))
 const TodoDetail = React.lazy(() => import('features/todo/pages/todo-detail'))
 
